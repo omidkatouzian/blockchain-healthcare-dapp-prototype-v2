@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Care Provider Dashboard | Healthcare EHR dApp{% endblock %}
+{% block content %}
+<section class="section-heading">
+  <p class="eyebrow">Doctor / Nurse / Pharmacy / Research Center</p>
+  <h1>Care provider dashboard</h1>
+  <p>Request patient access and read approved encrypted EHR records.</p>
+</section>
+
+<section class="card context-card">
+  <h2>Care provider session</h2>
+  <div class="form-grid">
+    <label>
+      Provider private key
+      <input id="staffPrivateKey" type="password" placeholder="0x..." autocomplete="off">
+    </label>
+    <label>
+      Patient address
+      <input id="staffPatientAddress" placeholder="0x...">
+    </label>
+  </div>
+  <div class="actions compact">
+    <button class="button" id="deriveStaffAddressBtn">Derive provider address</button>
+    <button class="button" id="loadStaffActorBtn">Load provider actor profile</button>
+  </div>
+</section>
+
+<section class="grid dashboard-grid">
+  <article class="card form-card">
+    <h2>Request access</h2>
+    <form id="staffRequestAccessForm">
+      <label>Purpose
+        <textarea name="purpose" rows="5" required>Need access for treatment review and medication validation.</textarea>
+      </label>
+      <button class="button primary" type="submit">Request patient access</button>
+    </form>
+  </article>
+
+  <article class="card form-card">
+    <h2>List accessible records</h2>
+    <p>This succeeds only if the patient has granted access or if the signer is the patient.</p>
+    <button class="button" id="staffListRecordsBtn">List record IDs</button>
+    <pre class="result" id="staffRecordsResult">No records loaded.</pre>
+  </article>
+
+  <article class="card form-card">
+    <h2>Read record</h2>
+    <form id="staffReadRecordForm">
+      <label>Record ID <input name="record_id" type="number" min="0" required></label>
+      <button class="button primary" type="submit">Read and decrypt approved record</button>
+    </form>
+  </article>
+
+  <article class="card form-card">
+    <h2>Provider notes</h2>
+    <p>
+      In Phase 2, staff can request and read approved records through the Python backend. In the next phase,
+      browser-wallet signing can replace backend private-key signing.
+    </p>
+  </article>
+</section>
+
+<section class="card">
+  <h2>Last operation result</h2>
+  <pre class="result" id="staffResult">No result yet.</pre>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+  setupStaffPage();
+</script>
+{% endblock %}
