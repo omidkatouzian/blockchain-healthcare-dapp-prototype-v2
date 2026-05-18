@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard | Healthcare EHR dApp{% endblock %}
+{% block content %}
+<section class="section-heading">
+  <p class="eyebrow">Patient-controlled access</p>
+  <h1>Patient dashboard</h1>
+  <p>Manage access requests, add encrypted EHR records, list record IDs, and read your own records.</p>
+</section>
+
+<section class="card context-card">
+  <h2>Patient session</h2>
+  <div class="form-grid">
+    <label>
+      Patient private key
+      <input id="patientPrivateKey" type="password" placeholder="0x..." autocomplete="off">
+    </label>
+    <label>
+      Patient address
+      <input id="patientAddress" placeholder="0x...">
+    </label>
+  </div>
+  <div class="actions compact">
+    <button class="button" id="derivePatientAddressBtn">Derive address from key</button>
+    <button class="button" id="loadPatientActorBtn">Load actor profile</button>
+  </div>
+</section>
+
+<section class="grid dashboard-grid">
+  <article class="card form-card">
+    <h2>Access requests</h2>
+    <p>Load pending/granted/rejected requests sent to this patient.</p>
+    <button class="button primary" id="loadAccessRequestsBtn">Load requests</button>
+    <pre class="result" id="patientRequestsResult">No requests loaded.</pre>
+  </article>
+
+  <article class="card form-card">
+    <h2>Grant or reject access</h2>
+    <form id="accessDecisionForm">
+      <label>Request ID <input name="request_id" type="number" min="0" required></label>
+      <label>Decision
+        <select name="grant">
+          <option value="true">Grant</option>
+          <option value="false">Reject</option>
+        </select>
+      </label>
+      <label>Duration seconds <input name="duration_seconds" type="number" value="604800"></label>
+      <label>Scopes <input name="scopes" value="read:ehr" placeholder="read:ehr, write:ehr"></label>
+      <button class="button primary" type="submit">Submit decision</button>
+    </form>
+  </article>
+
+  <article class="card form-card">
+    <h2>Add encrypted medical record</h2>
+    <form id="addRecordForm">
+      <label>Record type
+        <select name="record_type">
+          <option value="medical-note">Medical note</option>
+          <option value="lab-result">Lab result</option>
+          <option value="prescription">Prescription</option>
+          <option value="imaging-report">Imaging report</option>
+          <option value="insurance-document">Insurance document</option>
+          <option value="research-consent">Research consent</option>
+        </select>
+      </label>
+      <label>Record JSON
+        <textarea name="record_data" rows="8" required>{"title":"Initial visit","summary":"Patient is stable.","diagnosis":"Demo only","date":"2026-05-18"}</textarea>
+      </label>
+      <label>Metadata JSON
+        <textarea name="metadata" rows="5">{"source":"patient-dashboard","confidentiality":"encrypted"}</textarea>
+      </label>
+      <button class="button primary" type="submit">Encrypt, upload, and write CID</button>
+    </form>
+  </article>
+
+  <article class="card form-card">
+    <h2>Records</h2>
+    <div class="actions compact">
+      <button class="button" id="listPatientRecordsBtn">List record IDs</button>
+    </div>
+    <form id="readPatientRecordForm">
+      <label>Record ID <input name="record_id" type="number" min="0" required></label>
+      <button class="button" type="submit">Read and decrypt record</button>
+    </form>
+    <pre class="result" id="patientRecordsResult">No records loaded.</pre>
+  </article>
+</section>
+
+<section class="card">
+  <h2>Last operation result</h2>
+  <pre class="result" id="patientResult">No result yet.</pre>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+  setupPatientPage();
+</script>
+{% endblock %}
