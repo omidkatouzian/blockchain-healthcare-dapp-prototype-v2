@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Healthcare EHR dApp | Home{% endblock %}
+{% block content %}
+<section class="hero two-col">
+  <div>
+    <p class="eyebrow">Python + FastAPI + web3.py + Ethereum</p>
+    <h1>Patient-controlled EHR dApp</h1>
+    <p>
+      A GitHub-ready educational dApp for managing healthcare records with encrypted off-chain storage,
+      Ethereum smart-contract access control, DID-style identities, and role-based user flows.
+    </p>
+    <div class="actions">
+      <a class="button primary" href="/register">Start registration</a>
+      <a class="button" href="/patient">Open patient dashboard</a>
+    </div>
+  </div>
+  <aside class="status-card">
+    <h2>System flow</h2>
+    <ol class="steps">
+      <li>Register a patient or healthcare actor.</li>
+      <li>Verify care providers using the owner/admin account.</li>
+      <li>Care provider requests access to the patient record.</li>
+      <li>Patient grants or rejects the request.</li>
+      <li>Records are encrypted, stored off-chain, and referenced on-chain.</li>
+    </ol>
+  </aside>
+</section>
+
+<section class="grid feature-grid">
+  <article class="card">
+    <span class="pill">Actor Registry</span>
+    <h2>Register roles</h2>
+    <p>Register patients, doctors, nurses, pharmacies, and research centers with DID-style identifiers.</p>
+    <a href="/register">Open form →</a>
+  </article>
+  <article class="card">
+    <span class="pill">Patient Control</span>
+    <h2>Approve access</h2>
+    <p>Patients can list incoming requests and grant or reject access with a duration and scope.</p>
+    <a href="/patient">Open dashboard →</a>
+  </article>
+  <article class="card">
+    <span class="pill">Care Provider</span>
+    <h2>Request & read</h2>
+    <p>Doctors, nurses, pharmacies, and research centers can request access and read approved records.</p>
+    <a href="/staff">Open dashboard →</a>
+  </article>
+  <article class="card">
+    <span class="pill">Owner Action</span>
+    <h2>Verify actors</h2>
+    <p>Use the deployer/owner account to verify or unverify registered healthcare actors.</p>
+    <a href="/admin">Open admin →</a>
+  </article>
+</section>
+
+<section class="notice">
+  <strong>Demo security note:</strong>
+  This frontend sends demo private keys to the local FastAPI backend because Phase 1 was designed as a Python-only educational demo.
+  Do not use this signing model in production. A production dApp should sign transactions in the browser wallet, for example with MetaMask.
+</section>
+{% endblock %}
