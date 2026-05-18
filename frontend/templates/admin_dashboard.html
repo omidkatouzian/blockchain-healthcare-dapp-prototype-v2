@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | Healthcare EHR dApp{% endblock %}
+{% block content %}
+<section class="section-heading">
+  <p class="eyebrow">Contract owner actions</p>
+  <h1>Admin verification dashboard</h1>
+  <p>Verify or unverify doctors, nurses, pharmacies, and research centers after registration.</p>
+</section>
+
+<section class="grid two-panels">
+  <form class="card form-card" id="verifyActorForm">
+    <h2>Verify actor</h2>
+    <label>
+      Owner/deployer private key
+      <input name="private_key" type="password" placeholder="0x..." required autocomplete="off">
+    </label>
+    <label>
+      Actor address
+      <input name="actor_address" placeholder="0x..." required>
+    </label>
+    <label>
+      Verification status
+      <select name="verified">
+        <option value="true">Verified</option>
+        <option value="false">Not verified</option>
+      </select>
+    </label>
+    <button class="button primary" type="submit">Update verification</button>
+  </form>
+
+  <div class="card form-card">
+    <h2>Actor lookup</h2>
+    <form id="adminLookupActorForm">
+      <label>Actor address <input name="actor_address" placeholder="0x..." required></label>
+      <button class="button" type="submit">Load actor</button>
+    </form>
+    <div class="divider"></div>
+    <h3>Result</h3>
+    <pre class="result" id="adminResult">No result yet.</pre>
+  </div>
+</section>
+
+<section class="notice">
+  <strong>Important:</strong>
+  The verification transaction must be signed by the contract owner account. On Anvil this is usually the deployer private key.
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+  setupAdminPage();
+</script>
+{% endblock %}
