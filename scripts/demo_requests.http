@@ -1,0 +1,77 @@
+### Health
+GET http://127.0.0.1:8000/health
+
+### Register patient
+POST http://127.0.0.1:8000/api/actors/register
+Content-Type: application/json
+
+{
+  "private_key": "PATIENT_PRIVATE_KEY",
+  "role": "patient",
+  "name": "Alice Patient",
+  "metadata": {"bloodType": "O+", "gender": "female"}
+}
+
+### Register doctor
+POST http://127.0.0.1:8000/api/actors/register
+Content-Type: application/json
+
+{
+  "private_key": "DOCTOR_PRIVATE_KEY",
+  "role": "doctor",
+  "name": "Dr. Bob",
+  "metadata": {"medicalLicense": "DEMO-123"}
+}
+
+### Verify doctor by owner/deployer
+POST http://127.0.0.1:8000/api/actors/verify
+Content-Type: application/json
+
+{
+  "private_key": "DEPLOYER_PRIVATE_KEY",
+  "actor_address": "DOCTOR_ADDRESS",
+  "verified": true
+}
+
+### Doctor requests access
+POST http://127.0.0.1:8000/api/access/request
+Content-Type: application/json
+
+{
+  "private_key": "DOCTOR_PRIVATE_KEY",
+  "patient_address": "PATIENT_ADDRESS",
+  "purpose": "Prescription review"
+}
+
+### Patient grants access
+POST http://127.0.0.1:8000/api/access/decide
+Content-Type: application/json
+
+{
+  "private_key": "PATIENT_PRIVATE_KEY",
+  "request_id": 1,
+  "grant": true,
+  "duration_seconds": 604800,
+  "scopes": ["read:ehr", "write:ehr"]
+}
+
+### Add encrypted medical record
+POST http://127.0.0.1:8000/api/records
+Content-Type: application/json
+
+{
+  "private_key": "DOCTOR_PRIVATE_KEY",
+  "patient_address": "PATIENT_ADDRESS",
+  "record_type": "prescription",
+  "record_data": {"diagnosis": "demo", "drug1": "A", "drug2": "B"},
+  "metadata": {"visitDate": "2026-05-18"}
+}
+
+### Read record as patient or authorized doctor
+POST http://127.0.0.1:8000/api/records/read
+Content-Type: application/json
+
+{
+  "private_key": "DOCTOR_PRIVATE_KEY",
+  "record_id": 1
+}
