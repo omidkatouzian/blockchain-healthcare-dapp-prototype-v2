@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Register Actors | Healthcare EHR dApp{% endblock %}
+{% block content %}
+<section class="section-heading">
+  <p class="eyebrow">Actor onboarding</p>
+  <h1>Register patient or healthcare actor</h1>
+  <p>Use this page to register all supported roles. The private key is used only by the local demo backend to sign the transaction.</p>
+</section>
+
+<section class="grid two-panels">
+  <form class="card form-card" id="registerActorForm">
+    <h2>Registration form</h2>
+    <label>
+      Role
+      <select name="role" id="roleSelect" required>
+        <option value="patient">Patient</option>
+        <option value="doctor">Doctor</option>
+        <option value="nurse">Nurse</option>
+        <option value="pharmacy">Pharmacy</option>
+        <option value="research_center">Research Center</option>
+      </select>
+    </label>
+
+    <label>
+      Signer private key
+      <input name="private_key" type="password" placeholder="0x..." required autocomplete="off">
+      <small>Never commit or share real private keys. Use Anvil/Sepolia test wallets only.</small>
+    </label>
+
+    <label>
+      Display name
+      <input name="name" placeholder="Example: Dr. Sara Ahmadi" required>
+    </label>
+
+    <div class="role-field patient-only">
+      <label>
+        Blood type
+        <input name="bloodType" placeholder="Example: O+">
+      </label>
+      <label>
+        Allergies
+        <input name="allergies" placeholder="Example: penicillin, latex">
+      </label>
+    </div>
+
+    <div class="role-field staff-only" hidden>
+      <label>
+        License / organization number
+        <input name="licenseNumber" placeholder="Example: MED-12345">
+      </label>
+      <label>
+        Specialty / domain
+        <input name="specialty" placeholder="Example: Cardiology, Pharmacy, Research">
+      </label>
+      <label>
+        Organization
+        <input name="organization" placeholder="Example: Tehran General Hospital">
+      </label>
+    </div>
+
+    <label>
+      Extra metadata JSON
+      <textarea name="metadata_json" rows="7" placeholder='{"city":"Tehran","notes":"demo profile"}'></textarea>
+      <small>Optional. This will be merged with the structured fields above and pinned off-chain.</small>
+    </label>
+
+    <button class="button primary" type="submit">Register actor</button>
+  </form>
+
+  <div class="card form-card">
+    <h2>Lookup actor</h2>
+    <form id="lookupActorForm">
+      <label>
+        Actor address
+        <input name="actor_address" placeholder="0x..." required>
+      </label>
+      <button class="button" type="submit">Load actor</button>
+    </form>
+
+    <div class="divider"></div>
+    <h3>Result</h3>
+    <pre class="result" id="registerResult">No result yet.</pre>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+  setupRegisterPage();
+</script>
+{% endblock %}
